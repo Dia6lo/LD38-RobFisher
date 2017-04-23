@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -37,13 +38,9 @@ public class Jump : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
         var rigidbodies = FindObjectsOfType<Rigidbody2D>();
-        foreach (var rb in rigidbodies)
+        foreach (var rb in rigidbodies.Where(r => r.gameObject.layer == LayerMask.NameToLayer("Watertouched Objects")))
         {
-            if (rb.transform.position.y < transform.position.y)
-            {
-                rb.isKinematic = true;
-                rb.gameObject.layer = LayerMask.NameToLayer("Fixed Objects");
-            }
+            rb.gameObject.layer = LayerMask.NameToLayer("House Objects");
         }
     }
 
