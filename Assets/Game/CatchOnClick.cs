@@ -7,6 +7,7 @@ public class CatchOnClick : MonoBehaviour
     public Animator Animator;
     public FishingRod FishingRod;
     public Transform DropPoint;
+    public HouseWell HouseWell;
     public float FlyingSpeed;
 
     private void Update()
@@ -46,38 +47,10 @@ public class CatchOnClick : MonoBehaviour
         go.transform.localPosition = go.transform.localPosition - Vector3.forward * go.transform.localPosition.z;
         go.layer = LayerMask.NameToLayer("Flying");
         var rb = go.GetComponent<Rigidbody2D>();
-        rb.gravityScale = 0.5f;
+        rb.gravityScale = 0.25f;
         rb.bodyType = RigidbodyType2D.Dynamic;
-        go.AddComponent<ChangeTypeOnContact>();
+        go.AddComponent<ChangeTypeOnContact>().HouseWell = HouseWell;
         alreadyCatching = false;
-    }
-}
-
-public static class GameObjectExtensions
-{
-    public static void SetCollidersEnabled(this GameObject gameObject, bool value)
-    {
-        foreach (var component in gameObject.GetComponents<Collider2D>())
-        {
-            component.enabled = value;
-        }
-    }
-
-    public static void DisableAllBehaviors(this GameObject gameObject)
-    {
-        foreach (var component in gameObject.GetComponents<MonoBehaviour>())
-        {
-            component.enabled = false;
-        }
-    }
-
-    public static Vector3 WorldPosition(this GameObject gameObject)
-    {
-        return gameObject.transform.WorldPosition();
-    }
-
-    public static Vector3 WorldPosition(this Transform transform)
-    {
-        return transform.TransformPoint(Vector3.zero);
+        HouseWell.Add(go);
     }
 }
