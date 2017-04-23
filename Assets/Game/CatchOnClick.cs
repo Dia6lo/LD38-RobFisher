@@ -42,13 +42,13 @@ public class CatchOnClick : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
         go.SetCollidersEnabled(true);
-        go.transform.SetParent(transform.parent.parent, true);
+        go.transform.SetParent(transform.parent, true);
         go.transform.localPosition = go.transform.localPosition - Vector3.forward * go.transform.localPosition.z;
-        go.layer = LayerMask.NameToLayer("Volatile Objects");
+        go.layer = LayerMask.NameToLayer("Flying");
         var rb = go.GetComponent<Rigidbody2D>();
         rb.gravityScale = 0.5f;
         rb.bodyType = RigidbodyType2D.Dynamic;
-        go.AddComponent<FixOnWaterContact>();
+        go.AddComponent<ChangeTypeOnContact>();
         alreadyCatching = false;
     }
 }

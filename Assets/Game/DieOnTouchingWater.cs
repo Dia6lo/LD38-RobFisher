@@ -19,6 +19,8 @@ public class DieOnTouchingWater : MonoBehaviour
             enabled = false;
             gameObject.DisableAllBehaviors();
             transform.parent.gameObject.DisableAllBehaviors();
+            var rb = GetComponent<Rigidbody2D>();
+            rb.bodyType = RigidbodyType2D.Static;
         }
     }
 }

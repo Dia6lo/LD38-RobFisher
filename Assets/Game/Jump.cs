@@ -20,15 +20,12 @@ public class Jump : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    private void Update()
+    private void OnTriggerStay2D(Collider2D other)
     {
-        if (isJumping)
-        {
-            return;
-        }
-        if (!Input.GetButtonDown("Jump")) return;
+        if (!enabled) return;
+        if (isJumping) return;
+        if (!other.CompareTag("Jump")) return;
         animator.SetTrigger("Jump");
-        rigidbody.AddForce(new Vector2(0, Power));
         StartCoroutine(TriggerPhysicsOnApex());
         isJumping = true;
     }
@@ -36,6 +33,8 @@ public class Jump : MonoBehaviour
     private IEnumerator TriggerPhysicsOnApex()
     {
         collider.enabled = false;
+        yield return new WaitForSeconds(0.25f);
+        rigidbody.AddForce(new Vector2(0, Power));
         while (!IsFlyingUp)
         {
             yield return new WaitForEndOfFrame();
@@ -45,9 +44,11 @@ public class Jump : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
         var rigidbodies = FindObjectsOfType<Rigidbody2D>();
-        foreach (var rb in rigidbodies.Where(r => r.gameObject.layer == LayerMask.NameToLayer("Watertouched Objects")))
+        foreach (var rb in rigidbodies.Where(r => r.gameObject.layer == LayerMask.NameToLayer("Touching")))
         {
-            rb.gameObject.layer = LayerMask.NameToLayer("House Objects");
+            rb.constraints = RigidbodyConstraints2D.FreezeAll;
+            rb.gameObject.layer = LayerMask.NameToLayer("House");
+            rb.GetComponent<ChangeTypeOnContact>().enabled = false;
         }
         collider.enabled = true;
     }
