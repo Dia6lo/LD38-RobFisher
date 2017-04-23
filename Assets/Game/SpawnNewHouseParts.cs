@@ -40,10 +40,11 @@ public class SpawnNewHouseParts : MonoBehaviour
     private void SpawnOnRandomSide()
     {
         var prefab = GetRandomPrefab();
-        if (Random.value > 0.5f)
+        // Disable random, lol
+        //if (Random.value > 0.5f)
             SpawnFromLeft(prefab);
-        else
-            SpawnFromRight(prefab);
+        //else
+        //    SpawnFromRight(prefab);
     }
 
     private void SpawnFromLeft(GameObject prefab)
@@ -65,16 +66,7 @@ public class SpawnNewHouseParts : MonoBehaviour
         move.Direction = direction;
         move.Speed = 1;
         go.layer = LayerMask.NameToLayer("Floating");
-    }
-}
-
-public class MoveInDirection : MonoBehaviour
-{
-    public float Speed;
-    public Vector2 Direction;
-
-    private void Update()
-    {
-        transform.Translate(Direction * Speed * Time.deltaTime);
+        var rb = go.AddComponent<Rigidbody2D>();
+        rb.bodyType = RigidbodyType2D.Static;
     }
 }

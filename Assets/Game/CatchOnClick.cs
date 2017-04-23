@@ -12,7 +12,7 @@ public class CatchOnClick : MonoBehaviour
     private void Update()
     {
         if (alreadyCatching) return;
-        if (!Input.GetKeyDown(KeyCode.W)) return;
+        if (!Input.GetButtonDown("Fire1")) return;
         var caughtObject = FishingRod.CaughtObject;
         if (caughtObject == null) return;
         FishingRod.Remove(caughtObject);
@@ -27,6 +27,7 @@ public class CatchOnClick : MonoBehaviour
 
     private IEnumerator FlyUp(GameObject go)
     {
+        alreadyCatching = true;
         go.GetComponent<MoveInDirection>().enabled = false;
         go.SetCollidersEnabled(false);
         yield return new WaitForSeconds(0.5f);
@@ -44,10 +45,11 @@ public class CatchOnClick : MonoBehaviour
         go.transform.SetParent(transform.parent.parent, true);
         go.transform.localPosition = go.transform.localPosition - Vector3.forward * go.transform.localPosition.z;
         go.layer = LayerMask.NameToLayer("Volatile Objects");
-        go.AddComponent<Rigidbody2D>();
-        var a = go.GetComponent<Rigidbody2D>();
-        a.gravityScale = 0.5f;
+        var rb = go.GetComponent<Rigidbody2D>();
+        rb.gravityScale = 0.5f;
+        rb.bodyType = RigidbodyType2D.Dynamic;
         go.AddComponent<FixOnWaterContact>();
+        alreadyCatching = false;
     }
 }
 
