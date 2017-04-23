@@ -15,14 +15,15 @@ public class SpawnNewHouseParts : MonoBehaviour
             throw new Exception("Add some stuff to spawner");
     }
 
+    private void Start()
+    {
+        SpawnOnRandomSide();
+    }
+
     private void Update()
     {
         if (!CheckChance()) return;
-        var prefab = GetRandomPrefab();
-        if (Random.value > 0.5f)
-            SpawnFromLeft(prefab);
-        else
-            SpawnFromRight(prefab);
+        SpawnOnRandomSide();
     }
 
     private bool CheckChance()
@@ -34,6 +35,15 @@ public class SpawnNewHouseParts : MonoBehaviour
     private GameObject GetRandomPrefab()
     {
         return Prefabs[Random.Range(0, Prefabs.Count)];
+    }
+
+    private void SpawnOnRandomSide()
+    {
+        var prefab = GetRandomPrefab();
+        if (Random.value > 0.5f)
+            SpawnFromLeft(prefab);
+        else
+            SpawnFromRight(prefab);
     }
 
     private void SpawnFromLeft(GameObject prefab)
