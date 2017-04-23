@@ -4,6 +4,7 @@ using UnityEngine;
 public class CatchOnClick : MonoBehaviour
 {
     private bool alreadyCatching;
+    public Animator Animator;
     public FishingRod FishingRod;
     public Transform DropPoint;
     public float FlyingSpeed;
@@ -20,13 +21,15 @@ public class CatchOnClick : MonoBehaviour
 
     private void CatchObject(GameObject go)
     {
-        go.GetComponent<MoveInDirection>().enabled = false;
-        go.SetCollidersEnabled(false);
+        Animator.SetTrigger("Catch");
         StartCoroutine(FlyUp(go));
     }
 
     private IEnumerator FlyUp(GameObject go)
     {
+        go.GetComponent<MoveInDirection>().enabled = false;
+        go.SetCollidersEnabled(false);
+        yield return new WaitForSeconds(0.5f);
         var reachedTarget = false;
         while (!reachedTarget)
         {
@@ -38,7 +41,7 @@ public class CatchOnClick : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
         go.SetCollidersEnabled(true);
-        go.transform.SetParent(transform.parent, true);
+        go.transform.SetParent(transform.parent.parent, true);
         go.transform.localPosition = go.transform.localPosition - Vector3.forward * go.transform.localPosition.z;
         go.layer = LayerMask.NameToLayer("Volatile Objects");
         go.AddComponent<Rigidbody2D>();
@@ -53,6 +56,14 @@ public static class GameObjectExtensions
         foreach (var component in gameObject.GetComponents<Collider2D>())
         {
             component.enabled = value;
+        }
+    }
+
+    public static void DisableAllBehaviors(this GameObject gameObject)
+    {
+        foreach (var component in gameObject.GetComponents<MonoBehaviour>())
+        {
+            component.enabled = false;
         }
     }
 
