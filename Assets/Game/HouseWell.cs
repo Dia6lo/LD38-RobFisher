@@ -24,9 +24,8 @@ public class HouseWell : MonoBehaviour
         if (!fallingParts.Any()) return;
         var horizontal = Input.GetAxis("Horizontal");
         if (Math.Abs(horizontal) > float.Epsilon)
-            Apply(go => go.transform.Translate(Vector3.right * horizontal * HorizontalSpeed * Time.deltaTime));
+            Apply(go => go.transform.Translate(Vector3.right * horizontal * HorizontalSpeed * Time.deltaTime, transform.parent));
         var rotation = Input.GetAxis("Rotation");
-        Debug.Log(rotation);
         if (Math.Abs(rotation) > float.Epsilon)
             Apply(go => go.transform.Rotate(Vector3.back * rotation * RotationSpeed * Time.deltaTime));
     }

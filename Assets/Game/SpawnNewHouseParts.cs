@@ -9,6 +9,7 @@ public class SpawnNewHouseParts : MonoBehaviour
     public List<GameObject> Prefabs;
     public float SpawnChance = 0.1f;
     public float MaximumQuietDuration = 2.5f;
+    public float MinimumQuietDuration = 1f;
     private float sinceLastSpawn = 0f;
 
     private void Awake()
@@ -25,7 +26,9 @@ public class SpawnNewHouseParts : MonoBehaviour
     private void Update()
     {
         sinceLastSpawn += Time.deltaTime;
-        if (!CheckChance() && sinceLastSpawn < MaximumQuietDuration) return;
+        if (sinceLastSpawn < MaximumQuietDuration) return;
+        var shouldSpawn = sinceLastSpawn > MaximumQuietDuration || CheckChance();
+        if (!shouldSpawn) return;
         sinceLastSpawn = 0;
         SpawnOnRandomSide();
     }
@@ -69,8 +72,9 @@ public class SpawnNewHouseParts : MonoBehaviour
         var move = go.AddComponent<MoveInDirection>();
         move.Direction = direction;
         move.Speed = 1;
-        go.layer = LayerMask.NameToLayer("Floating");
+        go.SetLayerRecoursively("Floating");
         var rb = go.AddComponent<Rigidbody2D>();
         rb.bodyType = RigidbodyType2D.Static;
+        go.AddComponent<DestroyAfterTime>();
     }
 }

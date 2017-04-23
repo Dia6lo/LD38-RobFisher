@@ -18,7 +18,7 @@ public class ChangeTypeOnContact : MonoBehaviour
 
     private void SetStatus(string status)
     {
-        gameObject.layer = LayerMask.NameToLayer(status);
+        gameObject.SetLayerRecoursively(status);
     }
 
     private void OnTriggerEnter2D(Collider2D other)

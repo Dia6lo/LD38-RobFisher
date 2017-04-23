@@ -18,6 +18,15 @@ public static class GameObjectExtensions
         }
     }
 
+    public static void SetLayerRecoursively(this GameObject gameObject, string layer)
+    {
+        gameObject.layer = LayerMask.NameToLayer(layer);
+        foreach (Transform transform in gameObject.transform)
+        {
+            transform.gameObject.SetLayerRecoursively(layer);
+        }
+    }
+
     public static Vector3 WorldPosition(this GameObject gameObject)
     {
         return gameObject.transform.WorldPosition();

@@ -47,7 +47,7 @@ public class Jump : MonoBehaviour
         foreach (var rb in rigidbodies.Where(r => r.gameObject.layer == LayerMask.NameToLayer("Touching")))
         {
             rb.constraints = RigidbodyConstraints2D.FreezeAll;
-            rb.gameObject.layer = LayerMask.NameToLayer("House");
+            rb.gameObject.SetLayerRecoursively("House");
             rb.GetComponent<ChangeTypeOnContact>().enabled = false;
         }
         collider.enabled = true;
