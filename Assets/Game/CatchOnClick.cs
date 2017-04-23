@@ -12,7 +12,7 @@ public class CatchOnClick : MonoBehaviour
     private void Update()
     {
         if (alreadyCatching) return;
-        if (!Input.GetButtonDown("Fire1")) return;
+        if (!Input.GetKeyDown(KeyCode.W)) return;
         var caughtObject = FishingRod.CaughtObject;
         if (caughtObject == null) return;
         FishingRod.Remove(caughtObject);
@@ -45,6 +45,8 @@ public class CatchOnClick : MonoBehaviour
         go.transform.localPosition = go.transform.localPosition - Vector3.forward * go.transform.localPosition.z;
         go.layer = LayerMask.NameToLayer("Volatile Objects");
         go.AddComponent<Rigidbody2D>();
+        var a = go.GetComponent<Rigidbody2D>();
+        a.gravityScale = 0.5f;
         go.AddComponent<FixOnWaterContact>();
     }
 }
