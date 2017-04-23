@@ -8,6 +8,8 @@ public class SpawnNewHouseParts : MonoBehaviour
 {
     public List<GameObject> Prefabs;
     public float SpawnChance = 0.1f;
+    public float MaximumQuietDuration = 2.5f;
+    private float sinceLastSpawn = 0f;
 
     private void Awake()
     {
@@ -22,7 +24,9 @@ public class SpawnNewHouseParts : MonoBehaviour
 
     private void Update()
     {
-        if (!CheckChance()) return;
+        sinceLastSpawn += Time.deltaTime;
+        if (!CheckChance() && sinceLastSpawn < MaximumQuietDuration) return;
+        sinceLastSpawn = 0;
         SpawnOnRandomSide();
     }
 
