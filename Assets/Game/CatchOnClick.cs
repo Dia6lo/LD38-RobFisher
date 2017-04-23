@@ -9,6 +9,8 @@ public class CatchOnClick : MonoBehaviour
     public Transform DropPoint;
     public HouseWell HouseWell;
     public float FlyingSpeed;
+    public ParticleSystem SplashEffect;
+    public AudioSource SplashSound;
 
     private void Update()
     {
@@ -25,6 +27,14 @@ public class CatchOnClick : MonoBehaviour
         StartCoroutine(FlyUp(go));
     }
 
+    private void PlaySplashEffect(Vector3 position)
+    {
+        SplashEffect.transform.position = position;
+        SplashEffect.Play();
+        SplashSound.Play();
+    }
+    
+    
     private IEnumerator FlyUp(GameObject go)
     {
         alreadyCatching = true;
@@ -33,6 +43,7 @@ public class CatchOnClick : MonoBehaviour
         go.DisableAllBehaviors();
         go.SetCollidersEnabled(false);
         yield return new WaitForSeconds(0.5f);
+        PlaySplashEffect(go.transform.position);
         var reachedTarget = false;
         while (!reachedTarget)
         {
