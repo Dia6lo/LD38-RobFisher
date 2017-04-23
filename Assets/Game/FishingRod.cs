@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public class FishingRod : MonoBehaviour
 {
-    private List<GameObject> caughtObjects = new List<GameObject>();
+    private HashSet<GameObject> caughtObjects = new HashSet<GameObject>();
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -26,10 +26,5 @@ public class FishingRod : MonoBehaviour
     public GameObject CaughtObject
     {
         get { return caughtObjects.FirstOrDefault(); }
-    }
-
-    private void Update()
-    {
-        Debug.Log(CaughtObject != null ? CaughtObject.name : "");
     }
 }
