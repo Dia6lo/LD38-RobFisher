@@ -27,16 +27,19 @@ public class FixOnWaterContact : MonoBehaviour
         rigidbody2D.isKinematic = true;
         if (IsHuggingHouseParts)
         {
+            rigidbody2D.constraints = RigidbodyConstraints2D.FreezeAll;
             rigidbody2D.gameObject.layer = LayerMask.NameToLayer("Watertouched Objects");
         }
         else
+        {
+            rigidbody2D.velocity = Vector2.down;
             SinkWithoutHouse();
+        }
     }
 
     private void SinkWithoutHouse()
     {
         // TODO: Splash
-        rigidbody2D.velocity = Vector2.down;
     }
 
     private void OnCollisionExit2D(Collision2D other)
