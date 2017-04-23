@@ -19,6 +19,11 @@ public class FishingRod : MonoBehaviour
             caughtObjects.Remove(other.gameObject);
     }
 
+    public void Remove(GameObject go)
+    {
+        caughtObjects.Remove(go);
+    }
+
     public GameObject CaughtObject
     {
         get { return caughtObjects.FirstOrDefault(); }
