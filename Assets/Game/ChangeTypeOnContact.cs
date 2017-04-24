@@ -7,6 +7,8 @@ public class ChangeTypeOnContact : MonoBehaviour
     public HouseWell HouseWell;
     private bool alreadyTouchedWater;
     private List<GameObject> currentCollisions = new List<GameObject>();
+    private float sinceTouch;
+    private const float AttachDelay = 2f;
 
     private void OnCollisionEnter2D(Collision2D other)
     {
@@ -36,5 +38,21 @@ public class ChangeTypeOnContact : MonoBehaviour
         if (!enabled) return;
         currentCollisions.Remove(other.gameObject);
         SetStatus(currentCollisions.Any() ? "Touching" : "Flying");
+    }
+
+    private void Update()
+    {
+        if (!currentCollisions.Any())
+        {
+            sinceTouch = 0;
+            return;
+        }
+        sinceTouch += Time.deltaTime;
+        if (sinceTouch > AttachDelay)
+        {
+            var rb = GetComponent<Rigidbody2D>();
+            rb.constraints = RigidbodyConstraints2D.FreezeAll;
+            enabled = false;
+        }
     }
 }
