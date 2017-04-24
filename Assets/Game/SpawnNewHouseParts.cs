@@ -89,5 +89,6 @@ public class SpawnNewHouseParts : MonoBehaviour
         go.AddComponent<DestroyAfterTime>();
         if (Camera.main.transform.WorldPosition().y > 4)
             go.transform.rotation = Quaternion.Euler(0, 0, Random.Range(0, 360));
+        go.AddComponent<Oscillate>();
     }
 }
