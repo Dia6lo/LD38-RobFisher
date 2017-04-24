@@ -54,10 +54,14 @@ public class ChangeTypeOnContact : MonoBehaviour
             return;
         }
         sinceTouch += Time.deltaTime;
-        if (sinceTouch > AttachDelay)
+        var tutorial = GetComponent<TutorialPlank>();
+        var delay = tutorial == null ? AttachDelay : 1f;
+        if (sinceTouch > delay)
         {
             var rb = GetComponent<Rigidbody2D>();
             rb.constraints = RigidbodyConstraints2D.FreezeAll;
+            if (tutorial != null)
+                tutorial.Activate();
             enabled = false;
         }
     }
