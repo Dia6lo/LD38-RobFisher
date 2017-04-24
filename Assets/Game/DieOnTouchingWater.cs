@@ -10,19 +10,22 @@ public class DieOnTouchingWater : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (!enabled) return;
-        
+    private void DisableStuff(){
         enabled = false;
         gameObject.DisableAllBehaviors();
         transform.parent.gameObject.DisableAllBehaviors();
         var rb = GetComponent<Rigidbody2D>();
-        rb.bodyType = RigidbodyType2D.Static;
-        
+        rb.bodyType = RigidbodyType2D.Static;    
+    }
+    
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (!enabled) return;
+              
         if (other.CompareTag("Water"))
         {
-            animator.SetTrigger("Sink");  
+            animator.SetTrigger("Sink"); 
+            DisableStuff();
             if (Restarter.instance)
                 Restarter.instance.Restart();
         }
@@ -31,8 +34,12 @@ public class DieOnTouchingWater : MonoBehaviour
         {
             Camera.main.transform.root.GetComponent<Sink>().enabled = false;
             animator.SetTrigger("Happy");
+            DisableStuff();
             if (Restarter.instance)
                 Restarter.instance.Win();            
-        }        
+        } 
+
+
+          
     }
 }
