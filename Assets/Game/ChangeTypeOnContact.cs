@@ -8,7 +8,7 @@ public class ChangeTypeOnContact : MonoBehaviour
     private bool alreadyTouchedWater;
     private List<GameObject> currentCollisions = new List<GameObject>();
     private float sinceTouch;
-    private const float AttachDelay = 2f;
+    private const float AttachDelay = 3f;
 
     private void OnCollisionEnter2D(Collision2D other)
     {
