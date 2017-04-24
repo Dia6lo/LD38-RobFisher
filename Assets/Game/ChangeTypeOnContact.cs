@@ -5,8 +5,12 @@ using UnityEngine;
 public class ChangeTypeOnContact : MonoBehaviour
 {
     public HouseWell HouseWell;
+    public ParticleSystem Splash;
+    public AudioSource SplashSound;
     private bool alreadyTouchedWater;
     private List<GameObject> currentCollisions = new List<GameObject>();
+    private float sinceTouch;
+    private const float AttachDelay = 3f;
 
     private void OnCollisionEnter2D(Collision2D other)
     {
@@ -26,7 +30,11 @@ public class ChangeTypeOnContact : MonoBehaviour
         if (!enabled) return;
         if (alreadyTouchedWater) return;
         if (!other.gameObject.CompareTag("Water")) return;
-        // TODO: Splash
+        var splash = Instantiate(Splash);
+        //splash.transform.SetParent(transform);
+        splash.transform.position = transform.position;
+        splash.Play();
+        SplashSound.Play();
         HouseWell.Remove(gameObject);
         alreadyTouchedWater = true;
     }
@@ -36,5 +44,25 @@ public class ChangeTypeOnContact : MonoBehaviour
         if (!enabled) return;
         currentCollisions.Remove(other.gameObject);
         SetStatus(currentCollisions.Any() ? "Touching" : "Flying");
+    }
+
+    private void Update()
+    {
+        if (!currentCollisions.Any())
+        {
+            sinceTouch = 0;
+            return;
+        }
+        sinceTouch += Time.deltaTime;
+        var tutorial = GetComponent<TutorialPlank>();
+        var delay = tutorial == null ? AttachDelay : 1f;
+        if (sinceTouch > delay)
+        {
+            var rb = GetComponent<Rigidbody2D>();
+            rb.constraints = RigidbodyConstraints2D.FreezeAll;
+            if (tutorial != null)
+                tutorial.Activate();
+            enabled = false;
+        }
     }
 }
