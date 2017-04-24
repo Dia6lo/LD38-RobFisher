@@ -26,14 +26,14 @@ public class SpawnNewHouseParts : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (!enabled) return;              
+        if (!enabled) return;
         if (other.CompareTag("Zone"))
         {
             Prefabs = other.gameObject.GetComponent<ZoneSwitcher>().ZonePrefabs;
             Restarter.instance.Save(transform.position);
         }
     }
-    
+
     private void Update()
     {
         sinceLastSpawn += Time.deltaTime;
@@ -87,5 +87,7 @@ public class SpawnNewHouseParts : MonoBehaviour
         var rb = go.AddComponent<Rigidbody2D>();
         rb.bodyType = RigidbodyType2D.Static;
         go.AddComponent<DestroyAfterTime>();
+        if (Camera.main.transform.WorldPosition().y > 4)
+            go.transform.rotation = Quaternion.Euler(0, 0, Random.Range(0, 360));
     }
 }

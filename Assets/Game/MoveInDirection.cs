@@ -7,6 +7,6 @@ public class MoveInDirection : MonoBehaviour
 
     private void Update()
     {
-        transform.Translate(Direction * Speed * Time.deltaTime);
+        transform.Translate(Direction * Speed * Time.deltaTime, Space.World);
     }
 }

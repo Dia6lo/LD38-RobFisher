@@ -51,7 +51,7 @@ public class CatchOnClick : MonoBehaviour
             var target = DropPoint.WorldPosition();
             var current = go.WorldPosition();
             var range = target - current;
-            go.transform.Translate(range.normalized * FlyingSpeed * Time.deltaTime);
+            go.transform.Translate(range.normalized * FlyingSpeed * Time.deltaTime, Space.World);
             reachedTarget = Vector3.Distance(DropPoint.WorldPosition(), go.WorldPosition()) < 1;
             yield return new WaitForEndOfFrame();
         }
