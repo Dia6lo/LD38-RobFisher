@@ -12,6 +12,9 @@ public class TutorialPlank : MonoBehaviour
 
     private void Start()
     {
+        Sinking.enabled = false;
+        Spawner.enabled = false;
+        HouseWell.enabled = false;
         SetTitleAlpha(0);
     }
 
