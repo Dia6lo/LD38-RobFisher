@@ -42,7 +42,7 @@ public class Restarter : MonoBehaviour {
     public Transform SavableObjects;
     public void Save(Vector3 position)
     {
-        savedPosition = new Vector3(0, position.y + 1.5f, 0);
+        savedPosition = new Vector3(0, position.y - 0.5f, 0);
     }
     
     public void Restart()

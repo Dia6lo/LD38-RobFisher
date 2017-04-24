@@ -4,6 +4,7 @@ using UnityEngine;
 public class CatchOnClick : MonoBehaviour
 {
     private bool alreadyCatching;
+    public PhysicsMaterial2D PhysMaterialForBricks;
     public Animator Animator;
     public FishingRod FishingRod;
     public Transform DropPoint;
@@ -60,7 +61,10 @@ public class CatchOnClick : MonoBehaviour
         var rb = go.GetComponent<Rigidbody2D>();
         rb.gravityScale = 0.1f;
         rb.bodyType = RigidbodyType2D.Dynamic;
+        rb.sharedMaterial = PhysMaterialForBricks;
         go.AddComponent<ChangeTypeOnContact>().HouseWell = HouseWell;
+        var cf = go.AddComponent<ConstantForce2D>();
+        cf.force = new Vector2(-0.2f,0);
         alreadyCatching = false;
         HouseWell.Add(go);
     }

@@ -32,7 +32,7 @@ public class DieOnTouchingWater : MonoBehaviour
         
         if (other.CompareTag("Heaven"))
         {
-            Camera.main.transform.root.GetComponent<Sink>().enabled = false;
+            Camera.main.transform.parent.GetComponent<Sink>().enabled = false;
             animator.SetTrigger("Happy");
             DisableStuff();
             if (Restarter.instance)
