@@ -5,6 +5,8 @@ using UnityEngine;
 public class ChangeTypeOnContact : MonoBehaviour
 {
     public HouseWell HouseWell;
+    public ParticleSystem Splash;
+    public AudioSource SplashSound;
     private bool alreadyTouchedWater;
     private List<GameObject> currentCollisions = new List<GameObject>();
     private float sinceTouch;
@@ -28,7 +30,11 @@ public class ChangeTypeOnContact : MonoBehaviour
         if (!enabled) return;
         if (alreadyTouchedWater) return;
         if (!other.gameObject.CompareTag("Water")) return;
-        // TODO: Splash
+        var splash = Instantiate(Splash);
+        //splash.transform.SetParent(transform);
+        splash.transform.position = transform.position;
+        splash.Play();
+        SplashSound.Play();
         HouseWell.Remove(gameObject);
         alreadyTouchedWater = true;
     }

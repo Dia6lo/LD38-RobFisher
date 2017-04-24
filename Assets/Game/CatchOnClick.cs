@@ -33,8 +33,8 @@ public class CatchOnClick : MonoBehaviour
         SplashEffect.Play();
         SplashSound.Play();
     }
-    
-    
+
+
     private IEnumerator FlyUp(GameObject go)
     {
         alreadyCatching = true;
@@ -60,7 +60,10 @@ public class CatchOnClick : MonoBehaviour
         var rb = go.GetComponent<Rigidbody2D>();
         rb.gravityScale = 0.1f;
         rb.bodyType = RigidbodyType2D.Dynamic;
-        go.AddComponent<ChangeTypeOnContact>().HouseWell = HouseWell;
+        var changeTypeOnContact = go.AddComponent<ChangeTypeOnContact>();
+        changeTypeOnContact.HouseWell = HouseWell;
+        changeTypeOnContact.Splash = SplashEffect;
+        changeTypeOnContact.SplashSound = SplashSound;
         alreadyCatching = false;
         HouseWell.Add(go);
     }
