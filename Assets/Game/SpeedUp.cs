@@ -6,6 +6,6 @@ public class SpeedUp : MonoBehaviour
 
     private void Update()
     {
-        Time.timeScale = Input.GetKey(KeyCode.LeftShift) ? Speed : 1;
+        Time.timeScale = Input.GetButton("SpeedUp") ? Speed : 1;
     }
 }
