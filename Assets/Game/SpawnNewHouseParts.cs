@@ -6,6 +6,7 @@ using Random = UnityEngine.Random;
 
 public class SpawnNewHouseParts : MonoBehaviour
 {
+    public Transform spawnPosition;
     public List<GameObject> Prefabs;
     public float SpawnChance = 0.1f;
     public float MaximumQuietDuration = 2.5f;
@@ -20,9 +21,19 @@ public class SpawnNewHouseParts : MonoBehaviour
 
     private void Start()
     {
-        SpawnOnRandomSide();
+        //SpawnOnRandomSide();
     }
 
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (!enabled) return;              
+        if (other.CompareTag("Zone"))
+        {
+            Prefabs = other.gameObject.GetComponent<ZoneSwitcher>().ZonePrefabs;
+            Restarter.instance.Save(transform.position);
+        }
+    }
+    
     private void Update()
     {
         sinceLastSpawn += Time.deltaTime;
@@ -56,18 +67,18 @@ public class SpawnNewHouseParts : MonoBehaviour
 
     private void SpawnFromLeft(GameObject prefab)
     {
-        Spawn(prefab, transform.position + Vector3.left * 10, Vector2.right);
+        Spawn(prefab, spawnPosition.transform.position + Vector3.left * 10, Vector2.right);
     }
 
     private void SpawnFromRight(GameObject prefab)
     {
-        Spawn(prefab, transform.position + Vector3.right * 10, Vector2.left);
+        Spawn(prefab, spawnPosition.transform.position + Vector3.right * 10, Vector2.left);
     }
 
     private void Spawn(GameObject prefab, Vector2 start, Vector2 direction)
     {
         var go = Instantiate(prefab);
-        go.transform.SetParent(transform.parent);
+        go.transform.SetParent(spawnPosition.transform.parent);
         go.transform.position = (Vector3)start + Vector3.back * 5;
         var move = go.AddComponent<MoveInDirection>();
         move.Direction = direction;

@@ -11,15 +11,17 @@ public class Restarter : MonoBehaviour {
 
     void Awake()
     {
-        if (instance != null && instance != this)
+        if (instance != null && instance != this){
+            SavableObjects.transform.position = instance.savedPosition;    
             Destroy(gameObject);
+        }
         else 
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
             target = cameraWinTarget.transform.position;
-            target.z = Camera.main.transform.position.z;
-        }
+            target.z = Camera.main.transform.position.z;           
+        }       
     }
     
     public Transform cameraWinTarget;
@@ -34,6 +36,13 @@ public class Restarter : MonoBehaviour {
             Camera.main.transform.position = Vector3.SmoothDamp(
             Camera.main.transform.position,
             target, ref velocity, cameraWinTime);      
+    }
+    
+    Vector3 savedPosition = Vector3.zero;
+    public Transform SavableObjects;
+    public void Save(Vector3 position)
+    {
+        savedPosition = new Vector3(0, position.y + 1.5f, 0);
     }
     
     public void Restart()
