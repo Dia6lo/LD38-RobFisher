@@ -14,7 +14,7 @@ public class TutorialPlank : MonoBehaviour
     {
         Sinking.enabled = false;
         Spawner.enabled = false;
-        HouseWell.enabled = false;
+        HouseWell.Enabled = false;
         SetTitleAlpha(0);
     }
 
@@ -23,7 +23,7 @@ public class TutorialPlank : MonoBehaviour
         Music.Play();
         Sinking.enabled = true;
         Spawner.enabled = true;
-        HouseWell.enabled = true;
+        HouseWell.Enabled = true;
         StartCoroutine(FadeInTitle());
     }
 

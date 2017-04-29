@@ -84,6 +84,7 @@ public class SpawnNewHouseParts : MonoBehaviour
         move.Direction = direction;
         move.Speed = 1;
         go.SetLayerRecoursively("Floating");
+        go.tag = "HousePart";
         var rb = go.AddComponent<Rigidbody2D>();
         rb.bodyType = RigidbodyType2D.Static;
         go.AddComponent<DestroyAfterTime>();

@@ -10,11 +10,17 @@ public class ChangeTypeOnContact : MonoBehaviour
     private bool alreadyTouchedWater;
     private List<GameObject> currentCollisions = new List<GameObject>();
     private float sinceTouch;
-    private const float AttachDelay = 3f;
+    private const float AttachDelay = 5f;
 
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (!enabled) return;
+        if (!other.gameObject.CompareTag("HousePart")) return;
+        var rb = GetComponent<Rigidbody2D>();
+        rb.bodyType = RigidbodyType2D.Dynamic;
+        rb.gravityScale = 0.1f;
+        if (gameObject.name != "TutorialPlank")
+            gameObject.AddComponent<ConstantForce2D>().force = new Vector2(-0.1f, 0);
         HouseWell.Remove(gameObject);
         currentCollisions.Add(other.gameObject);
         SetStatus("Touching");

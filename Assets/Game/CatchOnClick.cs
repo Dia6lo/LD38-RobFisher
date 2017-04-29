@@ -59,13 +59,9 @@ public class CatchOnClick : MonoBehaviour
         go.transform.SetParent(transform.parent, true);
         go.transform.localPosition = go.transform.localPosition - Vector3.forward * go.transform.localPosition.z;
         var rb = go.GetComponent<Rigidbody2D>();
-        rb.gravityScale = 0.1f;
         rb.bodyType = RigidbodyType2D.Dynamic;
+        rb.gravityScale = 0;
         rb.sharedMaterial = PhysMaterialForBricks;
-        var cf = go.AddComponent<ConstantForce2D>();
-        if (go.name != "TutorialPlank")
-            cf.force = new Vector2(-0.2f,0);
-            
         var changeTypeOnContact = go.AddComponent<ChangeTypeOnContact>();
         changeTypeOnContact.HouseWell = HouseWell;
         changeTypeOnContact.Splash = SplashEffect;
